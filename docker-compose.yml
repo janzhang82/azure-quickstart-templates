@@ -1,0 +1,64 @@
+version: '3'
+services:
+  app:
+      build:
+        context: ./docker/app
+        dockerfile: Dockerfile
+      image: heyday/app:latest
+      volumes:
+        - .:/var/www
+      ports:
+        - "80:80"
+        - "443:443"
+      networks:
+        - heynet
+  node:
+      build:
+        context: ./docker/node
+        dockerfile: Dockerfile
+      image: heyday/node:latest
+      volumes:
+        - .:/var/www
+      networks:
+        - heynet
+  mysql:
+      build:
+        context: ./docker/mysql
+        dockerfile: Dockerfile
+      image: mysql:5.7
+      environment:
+        - MYSQL_DATABASE=${DB_DATABASE}
+        - MYSQL_USER=${DB_USERNAME}
+        - MYSQL_PASSWORD=${DB_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+        - TZ=${TIMEZONE}
+      ports:
+        - "${DB_PORT}:3306"
+      volumes:
+        - mysqldata:/var/lib/mysql
+      networks:
+        - heynet
+  redis:
+      build:
+        context: ./docker/redis
+        dockerfile: Dockerfile
+      volumes:
+        - redisdata:/data
+      networks:
+        - heynet
+  mailhog:
+        build:
+          context: ./docker/mailhog
+          dockerfile: Dockerfile
+        ports:
+          - "${MAILHOG_PORT}:8025"
+        networks:
+          - heynet
+networks:
+  heynet:
+    driver: "bridge"
+volumes:
+  mysqldata:
+    driver: "local"
+  redisdata:
+    driver: "local"
