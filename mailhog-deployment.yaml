@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.6.0 (e4adfef)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mailhog
+  name: mailhog
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: mailhog
+    spec:
+      containers:
+      - image: mailhog
+        name: mailhog
+        ports:
+        - containerPort: 8025
+        resources: {}
+      restartPolicy: Always
+status: {}

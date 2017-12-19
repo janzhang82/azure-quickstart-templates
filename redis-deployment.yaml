@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.6.0 (e4adfef)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: redis
+  name: redis
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: redis
+    spec:
+      containers:
+      - image: redis
+        name: redis
+        resources: {}
+        volumeMounts:
+        - mountPath: /data
+          name: redisdata
+      restartPolicy: Always
+      volumes:
+      - name: redisdata
+        persistentVolumeClaim:
+          claimName: redisdata
+status: {}
