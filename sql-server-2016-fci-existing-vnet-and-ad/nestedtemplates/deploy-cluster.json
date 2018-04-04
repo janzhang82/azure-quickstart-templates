@@ -333,7 +333,7 @@
       "properties": {
         "publisher": "Microsoft.Powershell",
         "type": "DSC",
-        "typeHandlerVersion": "2.20",
+        "typeHandlerVersion": "2.75",
         "autoUpgradeMinorVersion": true,
         "settings": {
           "modulesUrl": "[variables('sfciPrepModulesURL')]",
